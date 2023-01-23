@@ -1,0 +1,42 @@
+
+.cryptoButton{
+display: grid;
+grid-template-columns: 1fr 5fr 1fr;
+grid-template-rows: 1fr 1fr;
+padding: 10px 0;
+}
+
+.cryptoRank{
+grid-column: 1 / 2;
+grid-row: 1 / 3;
+align-self: center;
+justify-self: center;
+}
+
+.cryptoName{
+grid-column: 2 / 3;
+grid-row: 1 / 2;
+align-self: end;
+justify-self: center;
+display: flex;
+flex-direction: row;
+}
+
+.cryptoPrice{
+grid-column: 2 / 3;
+grid-row: 2 / 3;
+align-self: start;
+justify-self: center;
+}
+
+.cryptoChange{
+grid-column: 3 / 4;
+grid-row: 1 / 3;
+align-self: center;
+justify-self: center;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+padding-right: 10px;
+}
