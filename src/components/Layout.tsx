@@ -12,11 +12,13 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import {Button, Switch} from '@mui/material';
+import {Button, ToggleButton} from '@mui/material';
 import {useState, createContext} from 'react'
 import { Outlet } from "react-router-dom";
 import {useTheme} from "@mui/material/styles"
 import Brightness6Icon from '@mui/icons-material/Brightness6';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 interface Props {
   /**
@@ -27,7 +29,7 @@ interface Props {
   setMode: Function
   mode: string
 }
-
+//TODO: pass window to this component
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const drawerWidth = 240;
 const navItems = [{name: 'Home', link: ''},
@@ -37,6 +39,7 @@ const navItems = [{name: 'Home', link: ''},
 //TODO: Create placeholder views when data is loading (blank components)
 export function Layout(props: Props) {
   const { window, mode, setMode } = props;
+console.log(mode)
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -44,7 +47,8 @@ export function Layout(props: Props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+<>   
+ <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         MUI
       </Typography>
@@ -57,16 +61,20 @@ export function Layout(props: Props) {
             </ListItemButton>
           </ListItem>
         ))}
-<ListItem key='darkMode' disablePadding>
-              <Switch
-checked={mode === 'dark'}
-onChange={(newValue)=>{setMode(newValue === 'light' ? 'dark' : 'light')}}
-inputProps={{ 'aria-label': 'controlled' }}
-/>
-     <Brightness6Icon/>
-</ListItem>
       </List>
     </Box>
+            <ToggleButton
+value='darkMode'
+selected={mode === 'dark'}
+onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
+>
+{mode === 'light' ? 
+<LightModeIcon/>
+:
+<DarkModeIcon/>
+}            
+</ToggleButton>
+</>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -99,14 +107,17 @@ inputProps={{ 'aria-label': 'controlled' }}
                 {item.name}
               </Button>
             ))}
-<ListItem key='darkMode' disablePadding>
-              <Switch
-checked={mode === 'dark'}
-onChange={(newValue)=>{setMode(newValue === 'light' ? 'dark' : 'light')}} 
-inputProps={{ 'aria-label': 'controlled' }}
-/>
-     <Brightness6Icon/>
-</ListItem>
+<ToggleButton
+value='darkMode'
+selected={mode === 'dark'}
+onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
+>
+{mode === 'light' ?
+<LightModeIcon/>
+:
+<DarkModeIcon/>
+}
+</ToggleButton>
           </Box>
         </Toolbar>
       </AppBar>

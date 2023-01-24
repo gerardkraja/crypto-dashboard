@@ -6,45 +6,46 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {Link} from 'react-router-dom'
 
 import {FavoriteButton} from './FavoriteButton'
 
-export function CryptoListItem({crypto, isFavoriteEnabled}){
+export function CryptoListItem({cryptoInfo, isFavoriteEnabled}){
 return(
-<Link key={crypto.id} to={`/cryptoDetails/${crypto.id}`}>
 <div className={styles.cryptoButton}>
 <div className={styles.cryptoRank}>
 <Typography>
-{crypto.rank}
+{cryptoInfo.rank}
 </Typography>
 </div>
+<Link to={`/cryptoDetails/${cryptoInfo.id}`}>
 <div className={styles.cryptoName}>
 <Typography>
-{crypto.name}
+{cryptoInfo.name}
 </Typography>
 <Typography>
-{`(${crypto.symbol})`}
+{`(${cryptoInfo.symbol})`}
 </Typography>
 </div>
+</Link>
 <div className={styles.cryptoPrice}>
    <Typography>
-{`$${parseFloat(crypto.priceUsd).toFixed(2)}`}
+{`$${parseFloat(cryptoInfo.priceUsd).toFixed(2)}`}
 </Typography>
 </div>
 <div className={styles.cryptoChange}>
-{isFavoriteEnabled &&
-<FavoriteButton cryptoID={crypto.id}/>
+{isFavoriteEnabled === true &&
+<FavoriteButton cryptoID={cryptoInfo.id}/>
 }
-{crypto.changePercent24Hr > 0 ?
+{cryptoInfo.changePercent24Hr > 0 ?
 <ArrowDropUpIcon color='success'/>
 :
 <ArrowDropDownIcon color='error'/>
 }
 <Typography>
-{parseFloat(crypto.changePercent24Hr).toFixed(2)}
+{parseFloat(cryptoInfo.changePercent24Hr).toFixed(2)}
 </Typography>
 </div>
 </div>
-</Link>
 )
 }

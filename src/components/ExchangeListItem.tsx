@@ -6,21 +6,24 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import {Link} from 'react-router-dom'
 
 import {FavoriteButton} from './FavoriteButton'
 
 export function ExchangeListItem({exchangeInfo}){
 return(
-<Link key={exchangeInfo.id} to={`/exchangeDetails/${exchangeInfo.id}`}>
+<>
+<Link key={exchangeInfo.exchangeId} to={`/exchangeDetails/${exchangeInfo.exchangeId}`}>
 <Typography>
 {exchangeInfo.name}
 </Typography>
+</Link>
 <Typography>
 {exchangeInfo.rank}
 </Typography>
 <Typography>
-{exchangeInfo.volumeUsd}
+{Math.round(exchangeInfo.volumeUsd)}
 </Typography>
-</Link>
+</>
 )
 }

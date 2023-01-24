@@ -7,50 +7,52 @@ import Typography from '@mui/material/Typography';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {Link} from 'react-router-dom'
-imoort {CryptoListItem} from './CryptoListItem'
-imoort {ExchangeListItem} from './ExchangeListItem'
+
+import {CryptoListItem} from './CryptoListItem'
+import {ExchangeListItem} from './ExchangeListItem'
 
 export function InfoList({type, data}){
-const details = {
+const options = {
 cryptos: {
 title: 'Top cryptocurrencies',
-link: ''
+link: '/more/cryptos'
 },
 favorites: {
 title: 'Favorites',
-link: ''
+link: '/more/favorites'
 },
 exchanges: {
 title: 'Top exchanges',
-link: ''
+link: '/more/exchanges'
 },
-
 }
 return(
 <Card>
 <Typography>
-{details[type]['title']}
+{options[type]['title']}
 </Typography>
 {!data && <CircularProgress/>}
-{data && type === 'cryptos'?
+{data && type === 'cryptos' &&
 data.map(crypto=>
-<CryptoListItem cryptoInfo={crypto}/>
+<CryptoListItem key={crypto.id} cryptoInfo={crypto}/>
 )
 }
-{data && type === 'favorites'?
+{data && type === 'favorites' &&
 data.map(favorite=>
-<CryptoListItem cryptoInfo={crypto} isFavoriteEnabled/>
+<CryptoListItem key={favorite.id} cryptoInfo={favorite} isFavoriteEnabled={true}/>
 )
 }
-{data && type === 'exchanges'?
+{data && type === 'exchanges' &&
 data.map(exchange=>
-<ExchangeListItem exchangeInfo={exchange}/>
+<ExchangeListItem key={exchange.exchangeId} exchangeInfo={exchange}/>
 )
 }
-<Button color='primary' onClick={()=>{}}>
-More
-</Button>
+<Link to={options[type]['link']}>
+<Typography>
+Show more
+</Typography>
+</Link>
 </Card>
-)
 
+)
 }

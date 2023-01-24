@@ -16,10 +16,9 @@ setFavorites([...newFavorites])
 }
 const unsetFavorite = (oldFavorite) => {
 const newFavorites = [...favorites]
-newFavorites.splice(newFavorites.findIndex(
-favorite=>{favorite === oldFavorite}), 1)
-console.log('old faves ' + favorites)
-console.log('new faves ' + newFavorites)
+const toRemoveIndex = newFavorites.findIndex(
+favorite=>favorite === oldFavorite)
+newFavorites.splice(toRemoveIndex, 1)
 localStorage.setItem('favorites', JSON.stringify(newFavorites))
 setFavorites([...newFavorites])
 }
