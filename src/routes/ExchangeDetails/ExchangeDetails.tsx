@@ -4,8 +4,8 @@ import {CartesianGrid, ResponsiveContainer, LineChart,
 Tooltip, Line, XAxis, YAxis } from 'recharts'
 import {CircularProgress, ToggleButton, ToggleButtonGroup, Card, Typography} from '@mui/material'
 
-import {ExchangeChart} from '../../components/ExchangeChart'
 import {FavoriteButton} from '../../components/FavoriteButton'
+import {ExchangeChart} from '../../components/ExchangeChart'
 
 export async function loader(params){
 const responses = await Promise.all([

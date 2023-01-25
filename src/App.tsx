@@ -10,6 +10,8 @@ import Home, {loader as homeLoader} from './routes/Home/Home.tsx'
 import CryptoDetails from './routes/CryptoDetails/CryptoDetails.tsx'
 import ExchangeDetails, {loader as exchangeDetailsLoader} from './routes/ExchangeDetails/ExchangeDetails.tsx'
 import {MoreItems, loader as moreItemsLoader} from './routes/MoreItems/MoreItems.tsx'
+import {SearchResults, loader as searchResultsLoader} from './routes/SearchResults/SearchResults.tsx'
+import {Contact} from './routes/Contact/Contact.tsx'
 
 //TODO: main container can be expanded horizontally if you
 //provider big enough content. Prevent it.
@@ -37,7 +39,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout mode={mode} setMode={storeMode}/>,
     errorElement: <ErrorPage />,
-  },
+    children: [
 {
 path: 'home',
 loader: homeLoader,
@@ -60,6 +62,19 @@ element: <MoreItems
 />,
 loader: moreItemsLoader
 },
+{
+path: 'search/:search',
+element: <SearchResults
+/>,
+loader: searchResultsLoader
+},
+{
+path: 'contact',
+element: <Contact
+/>
+},
+]
+  },
 ]);
 return(
 <ThemeProvider theme={theme}>

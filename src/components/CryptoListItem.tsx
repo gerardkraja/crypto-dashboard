@@ -21,10 +21,7 @@ return(
 <Link to={`/cryptoDetails/${cryptoInfo.id}`}>
 <div className={styles.cryptoName}>
 <Typography>
-{cryptoInfo.name}
-</Typography>
-<Typography>
-{`(${cryptoInfo.symbol})`}
+{cryptoInfo.name + ` (${cryptoInfo.symbol})`}
 </Typography>
 </div>
 </Link>

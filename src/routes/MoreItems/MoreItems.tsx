@@ -1,5 +1,5 @@
 import {useLoaderData, useParams} from 'react-router-dom'
-import {Typography, CircularProgress, ToggleButtonGroup, ToggleButton} from '@mui/material'
+import {Typography, CircularProgress, Pagination} from '@mui/material'
 import {useState} from 'react'
 
 import {CryptoListItem} from '../../components/CryptoListItem.tsx'
@@ -48,38 +48,28 @@ for(let i=1;i<=nrPages;i++){
 pageNumbers.push(i)
 }
 return(
-<>A
+<>
 <Typography>
 {options[pageType]['title']}
 </Typography>
 {!data && <CircularProgress/>}
 {data && pageType === 'cryptos' &&
 data.slice((currentPage - 1) * 10, currentPage * 10).map(crypto=>{
-return <CryptoListItem cryptoInfo={crypto}/>
+return <CryptoListItem key={crypto.id} cryptoInfo={crypto}/>
 })
 }
 {data && pageType === 'favorites' &&
 data.slice((currentPage - 1) * 10, currentPage * 10).map(favorites=>{
-return <CryptoListItem isFavoriteEnabled={true} cryptoInfo={favorites}/>
+return <CryptoListItem key={favorite.id} isFavoriteEnabled={true} cryptoInfo={favorites}/>
 })
 }
 {data && pageType === 'exchanges' &&
 data.slice((currentPage - 1) * 10, currentPage * 10).map(exchange=>{
-return <ExchangeListItem exchangeInfo={exchange}/>
+return <ExchangeListItem key={exchange.exchangeId} exchangeInfo={exchange}/>
 })
 }
-<ToggleButtonGroup
-  color="primary"
-  value={currentPage}
-  exclusive
-disabled={data.length===0}
-  onChange={(e, pageNumber)=>{setCurrentPage(pageNumber)}}
-  aria-label="Paginator"
->
-{pageNumbers.map(pageNumber=>{
-  return <ToggleButton value={pageNumber}>{pageNumber}</ToggleButton>
-})}
-</ToggleButtonGroup>
+<Pagination count={nrPages} page={currentPage} onChange={
+(e, value)=>{setCurrentPage(value)}}/>
 </>
 )
 }

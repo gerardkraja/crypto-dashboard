@@ -20,6 +20,8 @@ import Brightness6Icon from '@mui/icons-material/Brightness6';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 
+import {Footer} from './Footer.tsx'
+
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -50,7 +52,7 @@ console.log(mode)
 <>   
  <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Crypto Dashboard
       </Typography>
       <Divider />
       <List>
@@ -69,9 +71,9 @@ selected={mode === 'dark'}
 onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
 >
 {mode === 'light' ? 
-<LightModeIcon/>
-:
 <DarkModeIcon/>
+:
+<LightModeIcon/>
 }            
 </ToggleButton>
 </>
@@ -83,7 +85,7 @@ onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
 <>   
  <Box sx={{ display: 'flex', flex: 1 }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar position='sticky' component="nav">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -99,8 +101,11 @@ onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            Crypto Dashboard
           </Typography>
+           <Box>
+	  
+	  </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button key={item.name} sx={{ color: '#fff' }}>
@@ -113,9 +118,9 @@ selected={mode === 'dark'}
 onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
 >
 {mode === 'light' ?
-<LightModeIcon/>
-:
 <DarkModeIcon/>
+:
+<LightModeIcon/>
 }
 </ToggleButton>
           </Box>
@@ -139,9 +144,10 @@ onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
         </Drawer>
       </Box>
     </Box>
-<div style={{ flex: 1, backgroundColor: 'orange'}}>
+<div style={{ flex: 1}}>
 <Outlet/>
 </div>
+<Footer/>
 </>
   );
 }
