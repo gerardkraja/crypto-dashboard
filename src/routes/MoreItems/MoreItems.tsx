@@ -59,8 +59,8 @@ return <CryptoListItem key={crypto.id} cryptoInfo={crypto}/>
 })
 }
 {data && pageType === 'favorites' &&
-data.slice((currentPage - 1) * 10, currentPage * 10).map(favorites=>{
-return <CryptoListItem key={favorite.id} isFavoriteEnabled={true} cryptoInfo={favorites}/>
+data.slice((currentPage - 1) * 10, currentPage * 10).map(favorite=>{
+return <CryptoListItem key={favorite.id} isFavoriteEnabled={true} cryptoInfo={favorite}/>
 })
 }
 {data && pageType === 'exchanges' &&

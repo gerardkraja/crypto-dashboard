@@ -13,12 +13,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import {Button, ToggleButton} from '@mui/material';
-import {useState, createContext} from 'react'
+import {useEffect, useState, createContext} from 'react'
 import { Outlet } from "react-router-dom";
 import {useTheme} from "@mui/material/styles"
 import Brightness6Icon from '@mui/icons-material/Brightness6';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import {useNavigate, useLocation} from 'react-router-dom'
 
 import {Footer} from './Footer.tsx'
 
@@ -34,14 +35,21 @@ interface Props {
 //TODO: pass window to this component
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 const drawerWidth = 240;
-const navItems = [{name: 'Home', link: ''},
-{name: 'About', link: ''},
-{name: 'Contact', link: ''}];
+const navItems = [{name: 'Home', link: '/home'},
+{name: 'Cryptos', link: '/more/cryptos'},
+{name: 'Exchanges', link: '/more/exchanges'},
+{name: 'Contact', link: '/contact'}];
 
 //TODO: Create placeholder views when data is loading (blank components)
 export function Layout(props: Props) {
   const { window, mode, setMode } = props;
-console.log(mode)
+const navigate = useNavigate()
+const location = useLocation()
+useEffect(()=>{
+if(location.pathname === '/'){
+navigate('/home')
+}
+},[location])
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -58,7 +66,7 @@ console.log(mode)
       <List>
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton onClick={()=>{navigate(item.link)}} sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
@@ -108,7 +116,7 @@ onChange={()=>setMode(mode === 'light' ? 'dark' : 'light')}
 	  </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button key={item.name} sx={{ color: '#fff' }}>
+              <Button key={item.name} onClick={()=>{navigate(item.link)}} sx={{ color: '#fff' }}>
                 {item.name}
               </Button>
             ))}
