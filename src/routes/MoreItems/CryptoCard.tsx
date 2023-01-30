@@ -1,15 +1,8 @@
-import styles from "./CryptoListItem.module.css"
-import Typography from "@mui/material/Typography"
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import { Link } from "react-router-dom"
+import { Card } from "@mui/material"
 
-import { FavoriteButton } from "./FavoriteButton"
-import { Divider } from "@mui/material"
-
-export function CryptoListItem({ cryptoInfo, isFavoriteEnabled }) {
+export function CryptoCard({ cryptoInfo }) {
   return (
-    <>
+    <Card>
       <div className={styles.cryptoButton}>
         <div className={styles.nameAndRank}>
           <Typography>{cryptoInfo.rank}</Typography>
@@ -32,11 +25,10 @@ export function CryptoListItem({ cryptoInfo, isFavoriteEnabled }) {
             <ArrowDropDownIcon color="error" />
           )}
           <Typography>
-            {parseFloat(cryptoInfo.changePercent24Hr).toFixed(2) + "%"}
+            {parseFloat(cryptoInfo.changePercent24Hr).toFixed(2)}
           </Typography>
         </div>
       </div>
-      <Divider sx={{ width: "100%" }} />
-    </>
+    </Card>
   )
 }

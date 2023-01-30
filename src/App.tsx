@@ -1,85 +1,82 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import {useState} from 'react'
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { ThemeProvider, createTheme, PaletteMode } from "@mui/material"
+import { useMemo, useState } from "react"
 
-import {FavoriteContextProvider} from './context/FavoriteContext'
-import {Layout} from './components/Layout'
-import './App.css'
-import ErrorPage from './ErrorPage'
-import Home, {loader as homeLoader} from './routes/Home/Home.tsx'
-import CryptoDetails from './routes/CryptoDetails/CryptoDetails.tsx'
-import ExchangeDetails, {loader as exchangeDetailsLoader} from './routes/ExchangeDetails/ExchangeDetails.tsx'
-import {MoreItems, loader as moreItemsLoader} from './routes/MoreItems/MoreItems.tsx'
-import {SearchResults, loader as searchResultsLoader} from './routes/SearchResults/SearchResults.tsx'
-import {Contact} from './routes/Contact/Contact.tsx'
+import { FavoriteContextProvider } from "./context/FavoriteContext"
+import { Layout } from "./components/Layout"
+import "./App.css"
+import ErrorPage from "./routes/ErrorPage/ErrorPage"
+import Home from "./routes/Home/Home"
+import CryptoDetails from "./routes/CryptoDetails/CryptoDetails"
+import ExchangeDetails from "./routes/ExchangeDetails/ExchangeDetails"
+import { MoreItems } from "./routes/MoreItems/MoreItems"
+import { SearchResults } from "./routes/SearchResults/SearchResults"
+import { Contact } from "./routes/Contact/Contact"
 
-//TODO: main container can be expanded horizontally if you
-//provider big enough content. Prevent it.
-//TODO: store in local storage the preferred theme
-export default function App(){
-const storedMode = localStorage.getItem('mode')
-if(storedMode === null) localStorage.setItem('mode', 'light')
-const [mode, setMode] = useState<'light' | 'dark'>(
-storedMode === null ? 'light' : storedMode
-);
-const toggleColorMode = () => {
-setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-}
-const storeMode =(newMode)=>{
-setMode(newMode)
-localStorage.setItem('mode', newMode)
-}
-const theme = createTheme({
-      palette: {
-        mode,
+export default function App() {
+  const storedMode = localStorage.getItem("mode") as PaletteMode
+  if (storedMode === null) localStorage.setItem("mode", "light")
+  const [mode, setMode] = useState<PaletteMode>(
+    storedMode === null ? "light" : storedMode
+  )
+  const storeMode = (newMode: PaletteMode) => {
+    setMode((prevMode: PaletteMode) =>
+      prevMode === "light" ? "dark" : "light"
+    )
+    if (newMode !== null) localStorage.setItem("mode", newMode)
+  }
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
         },
-      })
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout mode={mode} setMode={storeMode}/>,
-    errorElement: <ErrorPage />,
-    children: [
-{
-path: 'home',
-loader: homeLoader,
-element: <Home/>
-},
-{
-path: 'cryptoDetails/:cryptoID',
-element: <CryptoDetails
-/>
-},
-{
-path: 'exchangeDetails/:exchangeID',
-element: <ExchangeDetails
-/>,
-loader: exchangeDetailsLoader
-},
-{
-path: 'more/:pageType',
-element: <MoreItems
-/>,
-loader: moreItemsLoader
-},
-{
-path: 'search/:search',
-element: <SearchResults
-/>,
-loader: searchResultsLoader
-},
-{
-path: 'contact',
-element: <Contact
-/>
-},
-]
-  },
-]);
-return(
-<ThemeProvider theme={theme}>
-<FavoriteContextProvider>
-<RouterProvider router={router}/>
-</FavoriteContextProvider>
-</ThemeProvider>
-)}
+        typography: {
+          button: {
+            textTransform: "none",
+          },
+        },
+      }),
+    [mode]
+  )
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout mode={mode} setMode={storeMode} />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "home",
+          element: <Home />,
+        },
+        {
+          path: "cryptoDetails/:cryptoID",
+          element: <CryptoDetails />,
+        },
+        {
+          path: "exchangeDetails/:exchangeID",
+          element: <ExchangeDetails />,
+        },
+        {
+          path: "more/:pageType",
+          element: <MoreItems />,
+        },
+        {
+          path: "search/:search",
+          element: <SearchResults />,
+        },
+        {
+          path: "contact",
+          element: <Contact />,
+        },
+      ],
+    },
+  ])
+  return (
+    <ThemeProvider theme={theme}>
+      <FavoriteContextProvider>
+        <RouterProvider router={router} />
+      </FavoriteContextProvider>
+    </ThemeProvider>
+  )
+}

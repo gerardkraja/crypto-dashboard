@@ -1,29 +1,24 @@
-import styles from './CryptoListItem.module.css'
-import Card from '@mui/material/Card';
-import ListItem from '@mui/material/ListItem';
-import Button from '@mui/material/Button';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import {Link} from 'react-router-dom'
+import { Divider } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import { Link } from "react-router-dom"
+import styles from "./ExchangeListItem.module.css"
 
-import {FavoriteButton} from './FavoriteButton'
-
-export function ExchangeListItem({exchangeInfo}){
-return(
-<>
-<Link key={exchangeInfo.exchangeId} to={`/exchangeDetails/${exchangeInfo.exchangeId}`}>
-<Typography>
-{exchangeInfo.name}
-</Typography>
-</Link>
-<Typography>
-{exchangeInfo.rank}
-</Typography>
-<Typography>
-{Math.round(exchangeInfo.volumeUsd)}
-</Typography>
-</>
-)
+export function ExchangeListItem({ exchangeInfo }) {
+  const volumeUsd = Math.round(exchangeInfo.volumeUsd)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.nameAndRank}>
+          <Typography>{exchangeInfo.rank}</Typography>
+          <Link to={`/exchangeDetails/${exchangeInfo.exchangeId}`}>
+            <Typography>{exchangeInfo.name}</Typography>
+          </Link>
+        </div>
+        <Typography>{volumeUsd}</Typography>
+      </div>
+      <Divider sx={{ width: "100%" }} />
+    </>
+  )
 }
