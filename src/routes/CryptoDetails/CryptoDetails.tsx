@@ -14,30 +14,67 @@ import { FavoriteButton } from "../../components/FavoriteButton"
 import styles from "./styles.module.css"
 import { CryptoDetailsChart } from "../../components/CryptoDetailsChart"
 import { useFetchCryptoDetails } from "../../hooks/useFetchCryptoDetails"
+import { useCurrencyConverter } from "../../hooks/useCurrencyConverter"
 
-//TODO: move the graph in a separate component
 export default function CryptoDetails() {
   const { cryptoID } = useParams()
   const [cryptoInfo, chartInfo] = useFetchCryptoDetails()
-  console.log(cryptoInfo)
   const [chartIndex, setChartIndex] = useState("day")
-  //TODO: pull this out in a separate hook
+  const [currencyInput, cryptoInput, calculateCrypto, calculateCurrency] =
+    useCurrencyConverter(cryptoInfo?.priceUsd)
   return (
     <div className={styles.page}>
-      <div className={styles.details}>
-        <Card sx={{ flex: 1 }}>
-          {cryptoInfo ? (
-            <>
-              <Typography>{cryptoInfo.name}</Typography>
-              <Typography>{cryptoInfo.priceUsd}</Typography>
-              <Typography>{cryptoInfo.changePercent24Hr}</Typography>
-              <FavoriteButton cryptoID={cryptoID} />
-            </>
-          ) : (
-            <CircularProgress />
-          )}
-        </Card>
-      </div>
+      <Card className={styles.details}>
+        {cryptoInfo ? (
+          <>
+            <div className={styles.detailsTitle}>
+              <Typography variant="h4">{cryptoInfo.name}</Typography>
+              <FavoriteButton cryptoID={cryptoID as string} />
+            </div>
+
+            <div className={styles.detailsRank}>
+              <Typography variant="h5" color="grey">
+                Rank
+              </Typography>
+              <Typography variant="h4">{cryptoInfo.rank}</Typography>
+            </div>
+            <div className={styles.detailsPrice}>
+              <Typography variant="h6" color="grey">
+                Price
+              </Typography>
+              <Typography variant="h5">
+                {parseFloat(cryptoInfo.priceUsd).toFixed(2)}
+              </Typography>
+            </div>
+            <div className={styles.detailsChange}>
+              <Typography variant="h6" color="grey">
+                Change
+              </Typography>
+              <Typography variant="h5">
+                {parseFloat(cryptoInfo.changePercent24Hr).toFixed(2)}
+              </Typography>
+            </div>
+            <div className={styles.detailsSupply}>
+              <Typography variant="h6" color="grey">
+                Supply
+              </Typography>
+              <Typography variant="h5">
+                {parseFloat(cryptoInfo.supply).toFixed(0)}
+              </Typography>
+            </div>
+            <div className={styles.detailsVolume}>
+              <Typography variant="h6" color="grey">
+                VWAP
+              </Typography>
+              <Typography variant="h5">
+                {parseFloat(cryptoInfo.vwap24Hr).toFixed(2)}
+              </Typography>
+            </div>
+          </>
+        ) : (
+          <CircularProgress />
+        )}
+      </Card>
       <div className={styles.chart}>
         {chartInfo ? (
           <Card
@@ -50,7 +87,9 @@ export default function CryptoDetails() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h5">Price over time</Typography>
+            <Typography sx={{ textAlign: "center" }} variant="h5">
+              Price over time
+            </Typography>
             <CryptoDetailsChart chartIndex={chartIndex} chartInfo={chartInfo} />
             <ToggleButtonGroup
               color="primary"
@@ -80,13 +119,26 @@ export default function CryptoDetails() {
       <Card className={styles.converter} sx={{ flex: 1 }}>
         {cryptoInfo ? (
           <>
+            <Typography variant="h5" className={styles.title}>
+              Converter
+            </Typography>
             <Typography className={styles.currencyName}>USD</Typography>
-            <TextField className={styles.currencyInput} placeholder={"0"} />
+            <TextField
+              value={currencyInput}
+              onChange={calculateCrypto}
+              className={styles.currencyInput}
+              placeholder={"0"}
+            />
             <CurrencyExchangeIcon className={styles.exchangeIcon} />
             <Typography className={styles.cryptoName}>
               {cryptoInfo.name}
             </Typography>
-            <TextField className={styles.cryptoInput} placeholder={"0"} />
+            <TextField
+              value={cryptoInput}
+              onChange={calculateCurrency}
+              className={styles.cryptoInput}
+              placeholder={"0"}
+            />
           </>
         ) : (
           <CircularProgress />

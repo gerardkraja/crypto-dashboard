@@ -1,4 +1,5 @@
 import { CircularProgress, Card, Typography } from "@mui/material"
+import styles from "./ExchangeDetails.module.css"
 
 import { ExchangeChart } from "../../components/ExchangeChart"
 import { useFetchExchangeDetails } from "../../hooks/useFetchExchangeDetails"
@@ -7,27 +8,49 @@ export default function ExchangeDetails() {
   const [exchangeInfo, chartData] = useFetchExchangeDetails()
 
   return (
-    <div style={{ height: "100vh", width: "100vw" }}>
-      <Card>
+    <div className={styles.page}>
+      <Card className={styles.details}>
         {exchangeInfo ? (
           <>
-            <Typography>{exchangeInfo.name}</Typography>
-            <Typography>{exchangeInfo.rank}</Typography>
-            <Typography>{exchangeInfo.tradingPairs}</Typography>
-            <Typography>{exchangeInfo.volumeUsd}</Typography>
-            <Typography>{exchangeInfo.exchangeUrl}</Typography>
+            <Typography variant="h4" className={styles.detailsTitle}>
+              {exchangeInfo.name}
+            </Typography>
+            <div className={styles.detailsRank}>
+              <Typography color="grey" variant="h5">
+                Rank
+              </Typography>
+              <Typography variant="h4">{exchangeInfo.rank}</Typography>
+            </div>
+            <div className={styles.detailsMarkets}>
+              <Typography variant="h6" color="grey">
+                Markets
+              </Typography>
+              <Typography variant="h5">{exchangeInfo.tradingPairs}</Typography>
+            </div>
+            <div className={styles.detailsVolume}>
+              <Typography variant="h6" color="grey">
+                Volume
+              </Typography>
+              <Typography variant="h5">
+                {Math.round(exchangeInfo.volumeUsd)}
+              </Typography>
+            </div>
+            <div className={styles.detailsLink}>
+              <Typography variant="h6" color="grey">
+                Website
+              </Typography>
+              <a href={exchangeInfo.exchangeUrl}>
+                <Typography variant="h5">{exchangeInfo.exchangeUrl}</Typography>
+              </a>
+            </div>
           </>
         ) : (
           <CircularProgress />
         )}
       </Card>
-      {chartData ? (
-        <Card>
-          <ExchangeChart data={chartData} />
-        </Card>
-      ) : (
-        <CircularProgress />
-      )}
+      <div className={styles.chart}>
+        {chartData ? <ExchangeChart data={chartData} /> : <CircularProgress />}
+      </div>
     </div>
   )
 }

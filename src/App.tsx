@@ -11,7 +11,7 @@ import CryptoDetails from "./routes/CryptoDetails/CryptoDetails"
 import ExchangeDetails from "./routes/ExchangeDetails/ExchangeDetails"
 import { MoreItems } from "./routes/MoreItems/MoreItems"
 import { SearchResults } from "./routes/SearchResults/SearchResults"
-import { Contact } from "./routes/Contact/Contact"
+// import { Contact } from "./routes/Contact/Contact"
 
 export default function App() {
   const storedMode = localStorage.getItem("mode") as PaletteMode
@@ -65,10 +65,10 @@ export default function App() {
           path: "search/:search",
           element: <SearchResults />,
         },
-        {
-          path: "contact",
-          element: <Contact />,
-        },
+        // {
+        //   path: "contact",
+        //   element: <Contact />,
+        // },
       ],
     },
   ])

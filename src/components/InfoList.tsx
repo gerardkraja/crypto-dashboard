@@ -2,14 +2,38 @@ import { Button, CircularProgress, Divider } from "@mui/material"
 import Card from "@mui/material/Card"
 import Typography from "@mui/material/Typography"
 import { useNavigate } from "react-router-dom"
+import { CryptoApiItem } from "../types/Crypto"
+import { ExchangeApiItem } from "../types/Exchange"
 
-import { CryptoListItem } from "./CryptoListItem"
+import { CryptoListItem } from "./CryptoListItem/CryptoListItem"
 import { EmptyFavorites } from "./EmptyFavorites"
-import { ExchangeListItem } from "./ExchangeListItem"
+import { ExchangeListItem } from "./ExchangeListItem/ExchangeListItem"
 
-export function InfoList({ type, data }) {
+interface Props {
+  type: string
+  data: CryptoApiItem[] | ExchangeApiItem[] | undefined
+}
+
+type Options = {
+  cryptos: {
+    title: string
+    link: string
+  }
+  favorites: {
+    title: string
+    link: string
+  }
+  exchanges: {
+    title: string
+    link: string
+  }
+  [key: string]: any
+}
+const isMobile = window.innerWidth < 768
+
+export function InfoList({ type, data }: Props) {
   const navigate = useNavigate()
-  const options = {
+  const options: Options = {
     cryptos: {
       title: "Top cryptocurrencies",
       link: "/more/cryptos",
@@ -32,9 +56,13 @@ export function InfoList({ type, data }) {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "space-around",
+        padding: isMobile ? "1rem" : 0,
+        gap: isMobile ? "1rem" : 0,
       }}
     >
-      <Typography variant="h5">{options[type]["title"]}</Typography>
+      <Typography sx={{ textAlign: "center" }} variant="h5">
+        {options[type]["title"]}
+      </Typography>
       <div
         style={{
           width: "95%",
@@ -47,14 +75,12 @@ export function InfoList({ type, data }) {
         {!data && <CircularProgress />}
         {data &&
           type === "cryptos" &&
-          data.map((crypto) => (
-            <>
-              <CryptoListItem key={crypto.id} cryptoInfo={crypto} />
-            </>
+          (data as CryptoApiItem[]).map((crypto: CryptoApiItem) => (
+            <CryptoListItem key={crypto.id} cryptoInfo={crypto} />
           ))}
         {data && type === "favorites" ? (
           data.length !== 0 ? (
-            data.map((favorite) => (
+            (data as CryptoApiItem[]).map((favorite: CryptoApiItem) => (
               <CryptoListItem
                 key={favorite.id}
                 cryptoInfo={favorite}
@@ -67,7 +93,7 @@ export function InfoList({ type, data }) {
         ) : null}
         {data &&
           type === "exchanges" &&
-          data.map((exchange) => (
+          (data as ExchangeApiItem[]).map((exchange: ExchangeApiItem) => (
             <ExchangeListItem
               key={exchange.exchangeId}
               exchangeInfo={exchange}
@@ -76,6 +102,7 @@ export function InfoList({ type, data }) {
       </div>
       <Button
         variant="outlined"
+        disabled={type === "favorites" && data?.length === 0}
         onClick={() => navigate(options[type]["link"])}
       >
         Show more

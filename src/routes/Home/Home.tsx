@@ -5,6 +5,7 @@ import { InfoList } from "../../components/InfoList"
 import { TradingVolumeChart } from "./TradingVolumeChart"
 import { ExchangeChart } from "../../components/ExchangeChart"
 import { useFetchHomeData } from "../../hooks/useFetchHomeData"
+import { Card } from "@mui/material"
 
 export default function Home() {
   const [cryptoData, favoriteData, exchangeData] = useFetchHomeData()
@@ -22,9 +23,9 @@ export default function Home() {
       <div className={styles.favoriteList}>
         <InfoList type="favorites" data={favoriteData} />
       </div>
-      <div className={styles.exchangeList}>
+      <Card className={styles.exchangeList}>
         <InfoList type="exchanges" data={exchangeData} />
-      </div>
+      </Card>
     </div>
   )
 }

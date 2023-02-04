@@ -15,8 +15,7 @@ export function Search() {
         margin="none"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            navigate(`/search/${e.target.value}`)
-            if (closeMobile) closeMobile()
+            navigate(`/search/${(e.target as HTMLTextAreaElement).value}`)
           }
         }}
         sx={{

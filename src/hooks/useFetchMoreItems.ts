@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { CryptoApiItem } from "../types/Crypto"
+import { ExchangeApiItem } from "../types/Exchange"
 
-export function useFetchMoreItems() {
-  const [data, setData] = useState(undefined)
-  const [nrPages, setNrPages] = useState(undefined)
+export function useFetchMoreItems(): [
+  CryptoApiItem[] | ExchangeApiItem[] | undefined,
+  number | undefined
+] {
+  const [data, setData] = useState<
+    CryptoApiItem[] | ExchangeApiItem[] | undefined
+  >(undefined)
+  const [nrPages, setNrPages] = useState<number | undefined>(undefined)
   const params = useParams()
   useEffect(() => {
     async function fetchData() {
@@ -12,11 +19,16 @@ export function useFetchMoreItems() {
         const response = await fetch("https://api.coincap.io/v2/assets")
         setData((await response.json()).data)
       } else if (pageType === "favorites") {
-        const favorites = JSON.parse(localStorage.getItem("favorites"))
-        const response = await fetch(
-          "https://api.coincap.io/v2/assets?" +
-            new URLSearchParams({ ids: favorites })
-        )
+        const localStorageData = localStorage.getItem("favorites")
+        const favorites =
+          localStorageData === null ? null : JSON.parse(localStorageData)
+        const response =
+          favorites.length === 0
+            ? []
+            : await fetch(
+                "https://api.coincap.io/v2/assets?" +
+                  new URLSearchParams({ ids: favorites })
+              )
         setData((await response.json()).data)
       } else if (pageType === "exchanges") {
         const response = await fetch("https://api.coincap.io/v2/exchanges")

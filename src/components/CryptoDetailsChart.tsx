@@ -1,16 +1,19 @@
-import {
-  CartesianGrid,
-  ResponsiveContainer,
-  LineChart,
-  Tooltip,
-  Line,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { CartesianGrid, LineChart, Tooltip, Line, XAxis, YAxis } from "recharts"
+import { ChartDataResult } from "../types/Crypto"
 
-export function CryptoDetailsChart({ chartInfo, chartIndex }) {
+interface Props {
+  chartInfo: ChartDataResult
+  chartIndex: string
+}
+
+export function CryptoDetailsChart({ chartInfo, chartIndex }: Props) {
+  const isMobile = window.innerWidth < 768
   return (
-    <LineChart width={600} height={400} data={chartInfo[chartIndex]}>
+    <LineChart
+      width={isMobile ? 280 : 600}
+      height={550}
+      data={chartInfo[chartIndex]}
+    >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey={"date"} />
       <YAxis

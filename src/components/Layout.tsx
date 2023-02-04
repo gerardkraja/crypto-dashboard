@@ -1,4 +1,3 @@
-//TODO: transform mui imports into named ones.
 import {
   Button,
   AppBar,
@@ -14,7 +13,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material"
-import { useEffect, useState, createContext } from "react"
+import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import MenuIcon from "@mui/icons-material/Menu"
 import DarkModeIcon from "@mui/icons-material/DarkMode"
@@ -29,22 +28,19 @@ interface Props {
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
-  window?: () => Window
   setMode: Function
   mode: string
 }
-//TODO: pass window to this component
 const drawerWidth = 240
 const navItems = [
   { name: "Home", link: "/home" },
   { name: "Cryptos", link: "/more/cryptos" },
   { name: "Exchanges", link: "/more/exchanges" },
-  { name: "Contact", link: "/contact" },
+  // { name: "Contact", link: "/contact" },
 ]
 
-//TODO: Create placeholder views when data is loading (blank components)
 export function Layout(props: Props) {
-  const { window, mode, setMode } = props
+  const { mode, setMode } = props
   const navigate = useNavigate()
   const location = useLocation()
   useEffect(() => {
@@ -56,7 +52,6 @@ export function Layout(props: Props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
-    console.log("runing")
   }
 
   const drawer = (
@@ -93,12 +88,11 @@ export function Layout(props: Props) {
     </>
   )
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined
-
+  const container = window.document.body
+  const isMobile = window.innerWidth < 768
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
-      <div style={{ paddingBottom: "6rem" }}>
+      <div style={{ paddingBottom: isMobile ? "18rem" : "6rem" }}>
         <Box sx={{ display: "flex", flex: 1 }}>
           <CssBaseline />
           <AppBar position="sticky" component="nav">
@@ -161,7 +155,7 @@ export function Layout(props: Props) {
             </Drawer>
           </Box>
         </Box>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, flexDirection: "column", display: "flex" }}>
           <Outlet />
         </div>
       </div>

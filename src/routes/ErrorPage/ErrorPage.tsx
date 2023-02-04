@@ -3,7 +3,6 @@ import { Typography } from "@mui/material"
 import styles from "./ErrorPage.module.css"
 
 export default function ErrorPage() {
-  //TODO: replce with mui components
   const error = useRouteError() as any
   let errorMessage
   if (isRouteErrorResponse(error)) {

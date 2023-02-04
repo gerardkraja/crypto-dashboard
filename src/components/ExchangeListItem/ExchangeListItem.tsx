@@ -1,10 +1,15 @@
 import { Divider } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import { Link } from "react-router-dom"
+import { ExchangeApiItem } from "../../types/Exchange"
 import styles from "./ExchangeListItem.module.css"
 
-export function ExchangeListItem({ exchangeInfo }) {
-  const volumeUsd = Math.round(exchangeInfo.volumeUsd)
+interface Props {
+  exchangeInfo: ExchangeApiItem
+}
+
+export function ExchangeListItem({ exchangeInfo }: Props) {
+  const volumeUsd = Math.round(parseFloat(exchangeInfo.volumeUsd))
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (

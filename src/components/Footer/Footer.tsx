@@ -1,10 +1,20 @@
 import { Typography } from "@mui/material"
+import React from "react"
 import { Link } from "react-router-dom"
 
-const FooterLink = ({ children, link }) => {
+import styles from "./Footer.module.css"
+
+interface Props {
+  children: React.ReactNode
+  link: string
+}
+
+const FooterLink = ({ children, link }: Props) => {
   return (
     <Link to={link}>
-      <Typography color="primary">{children}</Typography>
+      <Typography variant="h6" color="primary">
+        {children}
+      </Typography>
     </Link>
   )
 }
@@ -14,30 +24,11 @@ export function Footer() {
     { name: "Home", link: "/home" },
     { name: "Cryptos", link: "/more/cryptos" },
     { name: "Exchanges", link: "/more/exchanges" },
-    { name: "Contact", link: "/contact" },
+    // { name: "Contact", link: "/contact" },
   ]
   return (
-    <div
-      style={{
-        position: "absolute",
-        bottom: "0",
-        height: "6rem",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-        alignItems: "center",
-        padding: "0 2rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          gap: "2rem",
-        }}
-      >
+    <div className={styles.container}>
+      <div className={styles.links}>
         <Typography
           variant="h5"
           color="primary"
@@ -54,7 +45,7 @@ export function Footer() {
         })}
       </div>
 
-      <Typography color="primary">
+      <Typography sx={{ textAlign: "center" }} color="primary">
         Crypto Dashboard is free software released under the MIT License.
       </Typography>
     </div>
