@@ -12,7 +12,7 @@ export function Contact() {
         Contact
       </Typography>
       <div>
-        <InputLabel>Name</InputLabel>
+        {/* <InputLabel>Name</InputLabel>
         <Input value={name} onChange={(e, value) => setName(value)} />
         <InputLabel>Email</InputLabel>
         <Input value={email} onChange={(e, value) => setEmail(value)} />
@@ -21,7 +21,7 @@ export function Contact() {
           value={message}
           multiline={true}
           onChange={(e, value) => setMessage(value)}
-        />
+        /> */}
       </div>
     </div>
   )

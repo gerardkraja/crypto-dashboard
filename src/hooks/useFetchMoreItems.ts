@@ -29,7 +29,7 @@ export function useFetchMoreItems(): [
                 "https://api.coincap.io/v2/assets?" +
                   new URLSearchParams({ ids: favorites })
               )
-        setData((await response.json()).data)
+        setData((await (response as Response).json()).data)
       } else if (pageType === "exchanges") {
         const response = await fetch("https://api.coincap.io/v2/exchanges")
         setData((await response.json()).data)

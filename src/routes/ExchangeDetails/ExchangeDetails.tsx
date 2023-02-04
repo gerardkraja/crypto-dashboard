@@ -32,7 +32,7 @@ export default function ExchangeDetails() {
                 Volume
               </Typography>
               <Typography variant="h5">
-                {Math.round(exchangeInfo.volumeUsd)}
+                {Math.round(parseFloat(exchangeInfo.volumeUsd))}
               </Typography>
             </div>
             <div className={styles.detailsLink}>

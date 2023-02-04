@@ -1,6 +1,17 @@
 import { useState } from "react"
 
-export function useCurrencyConverter(exchangeRate: number) {
+export function useCurrencyConverter(
+  exchangeRate: number
+): [
+  currencyInput: string,
+  cryptoInput: string,
+  calculateCrypto: (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void,
+  calculateCurrency: (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void
+] {
   const [currencyInput, setCurrencyInput] = useState("")
   const [cryptoInput, setCryptoInput] = useState("")
   const allowedInputValues = [
